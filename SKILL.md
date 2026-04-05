@@ -150,8 +150,14 @@ python3 ~/.gemini/antigravity/skills/boss-job-scout/scripts/run_boss_scout.py
 Agent 根据 `Step 0` 的环境检查结果，采取不同的输出策略：
 
 #### 分支 A：用户已授权使用 lark-cli（默认方案）
-1. **表格自动入库**：将清洗后的最新有效数据追加录入多维表格（Base），并附加上 `抓取日期` （如 `2026-04-05`）和 `抓取状态` （填入 `新数据`）。
-2. **Top 5 消息直推**：调用 `lark-im` 技能，将本次结果中薪资上限最高的 Top 5 岗位通过机器人精准推送到用户的飞书单聊对话框，提醒今日高薪红利。
+1. **表格自动入库**：你可以安全地调用配套脚本自动把脱水 JSON 的增量数据插入基座表：
+   ```bash
+   python3 ~/.gemini/antigravity/skills/boss-job-scout/scripts/upload_to_base.py
+   ```
+2. **Top 5 消息直推**：调用预置脚本引擎，将最高薪数据直捣黄龙推送到私聊：
+   ```bash
+   python3 ~/.gemini/antigravity/skills/boss-job-scout/scripts/push_top5.py
+   ```
 
 #### 分支 B：离线降级方案（用户未安装且拒绝授权）
 如果用户回复“跳过”，则启用纯本地沉淀方案：
