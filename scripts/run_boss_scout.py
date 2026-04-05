@@ -30,8 +30,7 @@ def run_scout():
     
     print("=" * 60)
     print("🔥 BOSS 直聘深度仿生潜行模式已激活 (Anti-Crawler V2.0)")
-    print(f"-> 发现 {len(channel_keys)} 个监控项，本次轮询随机抽取执行 {len(selected_keys)} 个目标：{selected_keys}")
-    print("-> 警告要求：请确保装着 opencli 的浏览器没有最小化且可见！以保证环境活跃度！")
+    print(f"-> 发现 {len(channel_keys)} 个监控项，本次随机抽取 {len(selected_keys)} 个目标：{selected_keys}")
     print("=" * 60)
     print("\n")
     
