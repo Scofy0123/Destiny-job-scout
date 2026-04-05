@@ -14,7 +14,6 @@ def generate_html():
     with open(RESULTS_JSON, "r", encoding="utf-8") as f:
         data = json.load(f)
 
-    # Re-apply strict filter just in case
     valid_jobs = []
     for item in data.get('results', []):
         salary = str(item.get('salary', ''))
@@ -29,13 +28,11 @@ def generate_html():
             if item["_max_k"] >= 50:
                 valid_jobs.append(item)
 
-    # Sort
     valid_jobs.sort(key=lambda x: (x.get("_max_k", 0), x.get("_min_k", 0)), reverse=True)
 
     today_str = datetime.now().strftime("%Y-%m-%d %H:%M")
     scan_date = data.get("scan_date", today_str)
 
-    # Generate HTML content
     html_content = f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -44,20 +41,46 @@ def generate_html():
     <title>BOSS Job Scout Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {{
+        :root[data-theme="dark"] {{
             --bg-color: #0b0c10;
             --surface-color: rgba(31, 33, 40, 0.65);
             --border-color: rgba(255, 255, 255, 0.08);
             --text-primary: #ffffff;
             --text-secondary: #94a3b8;
             --accent-glow: #38bdf8;
-            --accent-pink: #f472b6;
             --glass-blur: blur(16px);
+            --bg-gradient: radial-gradient(circle at top right, #1e1b4b, var(--bg-color) 40%),
+                           radial-gradient(circle at bottom left, #082f49, var(--bg-color) 40%);
+            --card-hover: rgba(40, 43, 50, 0.7);
+            --title-grad: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+            --button-bg: rgba(255,255,255,0.05);
+            --box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            --orb-color: rgba(56,189,248,0.15);
+        }}
+
+        :root[data-theme="light"] {{
+            --bg-color: #f8fafc;
+            --surface-color: rgba(255, 255, 255, 0.65);
+            --border-color: rgba(0, 0, 0, 0.08);
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --accent-glow: #0284c7;
+            --glass-blur: blur(20px);
+            --bg-gradient: radial-gradient(circle at top right, #e0e7ff, var(--bg-color) 40%),
+                           radial-gradient(circle at bottom left, #bae6fd, var(--bg-color) 40%);
+            --card-hover: rgba(255, 255, 255, 0.9);
+            --title-grad: linear-gradient(135deg, #1e293b 0%, #4f46e5 100%);
+            --button-bg: rgba(0,0,0,0.03);
+            --box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+            --orb-color: rgba(2,132,199,0.1);
+        }}
+
+        html {{
+            /* default to dark */
         }}
 
         body {{
-            background: radial-gradient(circle at top right, #1e1b4b, var(--bg-color) 40%),
-                        radial-gradient(circle at bottom left, #082f49, var(--bg-color) 40%);
+            background: var(--bg-gradient);
             background-color: var(--bg-color);
             background-attachment: fixed;
             color: var(--text-primary);
@@ -65,6 +88,29 @@ def generate_html():
             margin: 0;
             padding: 0;
             min-height: 100vh;
+            transition: background 0.4s ease, color 0.4s ease;
+        }}
+
+        .theme-toggle {{
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 99px;
+            cursor: pointer;
+            backdrop-filter: var(--glass-blur);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }}
+        .theme-toggle:hover {{
+            transform: translateY(-2px) scale(1.05);
+            background: var(--text-primary);
+            color: var(--bg-color);
         }}
 
         .container {{
@@ -85,9 +131,10 @@ def generate_html():
             font-weight: 800;
             letter-spacing: -2px;
             margin: 0 0 1rem 0;
-            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+            background: var(--title-grad);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            transition: all 0.4s ease;
         }}
 
         .subtitle {{
@@ -129,7 +176,6 @@ def generate_html():
             animation: fadeUp 0.6s backwards;
         }}
         
-        /* Set animation delays for stagger */
         .card:nth-child(1) {{ animation-delay: 0.1s; }}
         .card:nth-child(2) {{ animation-delay: 0.2s; }}
         .card:nth-child(3) {{ animation-delay: 0.3s; }}
@@ -148,9 +194,8 @@ def generate_html():
 
         .card:hover {{
             transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 
-                        0 0 0 1px rgba(255,255,255,0.1) inset;
-            background: rgba(40, 43, 50, 0.7);
+            box-shadow: var(--box-shadow), 0 0 0 1px rgba(255,255,255,0.1) inset;
+            background: var(--card-hover);
         }}
 
         .card:hover::before {{
@@ -210,9 +255,9 @@ def generate_html():
         }}
 
         .skill-tag {{
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #cbd5e1;
+            background: rgba(127, 127, 127, 0.1);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
             font-size: 0.75rem;
             padding: 0.25rem 0.6rem;
             border-radius: 6px;
@@ -220,7 +265,8 @@ def generate_html():
         }}
 
         .card:hover .skill-tag {{
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(127, 127, 127, 0.2);
+            color: var(--text-primary);
         }}
 
         .action-link {{
@@ -230,7 +276,7 @@ def generate_html():
             text-align: center;
             padding: 0.8rem;
             border-radius: 12px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+            background: var(--button-bg);
             border: 1px solid var(--border-color);
             color: var(--text-primary);
             text-decoration: none;
@@ -241,7 +287,7 @@ def generate_html():
         .action-link:hover {{
             background: var(--text-primary);
             color: var(--bg-color);
-            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+            box-shadow: 0 0 20px rgba(127,127,127,0.2);
             transform: translateY(-2px);
         }}
 
@@ -260,16 +306,35 @@ def generate_html():
             width: 500px;
             height: 500px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(56,189,248,0.15) 0%, transparent 70%);
+            background: radial-gradient(circle, var(--orb-color) 0%, transparent 70%);
             top: -200px;
             left: -200px;
             pointer-events: none;
             z-index: -1;
             filter: blur(40px);
+            transition: background 0.5s ease;
         }}
     </style>
+    <script>
+        function toggleTheme() {{
+            const root = document.documentElement;
+            const current = root.getAttribute('data-theme');
+            const target = current === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-theme', target);
+            document.getElementById('theme-btn').innerText = target === 'dark' ? '☀️ Light' : '🌙 Dark';
+        }}
+        
+        document.addEventListener('DOMContentLoaded', () => {{
+            // Initial read
+            const isSystemLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+            const initTheme = isSystemLight ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', initTheme);
+            document.getElementById('theme-btn').innerText = initTheme === 'dark' ? '☀️ Light' : '🌙 Dark';
+        }});
+    </script>
 </head>
 <body>
+    <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()">☀️ Light</button>
     <div class="glow-orb"></div>
     <div class="container">
         <header>
@@ -292,7 +357,6 @@ def generate_html():
         skills_raw = job.get('skills', '')
         skills = skills_raw.split(',') if skills_raw else []
         
-        # Determine specific badge for top 3
         rank_html = ""
         if i == 0: rank_html = "<span style='font-size: 1.5rem;'>👑</span>"
         elif i == 1: rank_html = "<span style='font-size: 1.5rem;'>🚀</span>"
@@ -327,7 +391,7 @@ def generate_html():
     with open(OUTPUT_HTML, "w", encoding="utf-8") as f:
         f.write(html_content)
     
-    print(f"✅ Generated 2026 Interactive Dashboard: {OUTPUT_HTML}")
+    print(f"✅ Generated 2026 Interactive Dashboard: {OUTPUT_HTML} (with Light/Dark Mode!)")
 
 if __name__ == "__main__":
     generate_html()
