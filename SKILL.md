@@ -28,24 +28,15 @@ metadata:
 | 经验/学历 | `--experience 3-5年` / `--degree 本科` |
 | 行业筛选 | `--industry 互联网` |
 
-### opencli BOSS 完整命令清单
+### opencli BOSS 核心命令与进阶能力
 
+```bash
+opencli boss search <query>        # 搜索职位（本执行核心命令）
 ```
-opencli boss search <query>        搜索职位（核心命令）
-opencli boss joblist               我发布的职位列表
-opencli boss recommend             推荐候选人
-opencli boss resume <uid>          查看候选人简历
-opencli boss detail <security-id>  职位详情
-opencli boss chatlist              聊天列表
-opencli boss chatmsg <uid>         查看聊天记录
-opencli boss greet <uid>           向候选人发招呼
-opencli boss batchgreet            批量发招呼
-opencli boss send <uid> <text>     发送消息
-opencli boss invite <uid>          发面试邀请
-opencli boss exchange <uid>        交换联系方式
-opencli boss mark <uid>            给候选人打标签
-opencli boss stats                 职位数据统计
-```
+
+> **渐进式披露：**
+> 如果用户需要对找到的候选人继续执行“打招呼”、“主动沟通”、“发面试邀请”等动作，请**先阅读以下参考指引**获取完整的高阶命令，切勿在常规监控任务中自作主张。
+> 📖 [高阶动作操作指引](file://~/.gemini/antigravity/skills/boss-job-scout/references/opencli-boss-advanced-commands.md)
 
 ## 配置系统
 
@@ -166,20 +157,25 @@ Agent 根据 `Step 0` 的环境检查结果，采取不同的输出策略：
 #### 分支 B：离线降级方案（用户未安装且拒绝授权）
 如果用户回复“跳过”，则启用纯本地沉淀方案：
 1. **终端降级输出**：不要停止运行，直接以极具视觉冲击力的 Markdown 列表在当前聊天窗口打印 Top 5 高薪简报。
-2. **2026 美学大屏生存**：调用本技能目录下的生成脚本：
+2. **2026 美学大屏生成**：在执行脚本前，**务必先检查脚本文件是否存在并确认 Python 3 环境可用**。确认无误后，调用本技能目录下的生成脚本：
    ```bash
    python3 ~/.gemini/antigravity/skills/boss-job-scout/scripts/generate_html.py
    ```
-   该脚本会提取过滤后的高薪数据，在当前工作区生成一个包含深色模式、毛玻璃特效（Glassmorphism）、动态卡片悬浮、发光轨迹效果的最新 HTML 本地看板 `boss_topic_board.html`。
+   该脚本会提取过滤后的高薪数据，在当前工作区生成一个包含深色模式、毛玻璃特效（Glassmorphism）、动态卡片悬浮、双主题无缝切换的最新 HTML 本地看板 `boss_topic_board.html`。
 3. 把全量数据存一份脱水版到本地 `topic_results_filtered.json` 供备查。
+
+> **✅ 强制防呆与自我校验机制 (Verification Guard & Fail-Safe)：**
+> 任何依赖项调用（生成 HTML 或 lark-cli 推送），Agent **必须**检视执行后的 stdout / stderr 或返回值！
+> 1. 如果顺利成功，继续往后执行。
+> 2. **如果出现任何错误、异常或命令不存在**：切勿替用户作主张忽略报错！除了向用户透出错误日志外，必须**第一时间主动向用户请示**接下来的对策（比如：“推送失败，是否尝试离线降级方案？”或“脚本运行报错，需要我怎么处理？”）。
 
 ### Step 5: 回复用户
 
 向用户总结汇报：
 - 共搜索了哪几个关键词。
 - 原始数据多少条，经过硬性过滤后存活的最新有效数据多少条。
-- 如果是分支 A：提示数据已自动入库视图，并且卡片简报已推送到飞书聊天。
-- 如果是分支 B：提示数据已生成为本地具有最新交互特效的 HTML 数据大屏，并**温柔提示**：“如果希望下次全自动连通落库，随时叫我帮你安装 lark-cli 哦”。
+- 如果是分支 A 且验证成功：提示数据已自动入库视图，并且卡片简报已推送到飞书聊天。
+- 如果是分支 B 且验证成功：提示数据已生成为本地具有最新交互特效的 HTML 数据大屏，并**温柔提示**：“如果希望下次全自动连通落库，随时叫我帮你安装 lark-cli 哦”。
 
 ## 配置管理
 
