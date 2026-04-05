@@ -91,21 +91,21 @@ boss-job-scout/
 
 读取配置文件路径：`~/.gemini/antigravity/skills/boss-job-scout/configs/`
 
-### Step 1: 串行抓取
+### Step 1: 仿生学乱序抽查 (Anti-Crawler V2)
 
-对配置中每个 `enabled: true` 的 channel，**严格串行**执行，每个搜索之间插入 **7 秒随机延迟**：
+从配置中获取所有 `enabled: true` 的 channel，**绝对不能全量抓取**！必须执行**大波浪少食多餐策略**：每次运行必须随机打乱这些 channel，并**只抽取最多 2 个目标**进行抓取。且在两次搜索之间插入 **25到55秒 的大波浪拟人休眠**。在休眠期间，向用户发出前台唤醒警告。
 
+你可以直接调用预置爬虫管控核心：
 ```bash
-opencli boss search "<query>" --limit 15 <extra_args> --format json > <workspace>/temp_boss_<key>.json
-sleep $(( RANDOM % 4 + 5 ))   # 5-8 秒随机延迟
+python3 ~/.gemini/antigravity/skills/boss-job-scout/scripts/run_boss_scout.py
 ```
 
-> ⚠️ **反爬关键规则（必须严格遵守）：**
-> 1. **永远不要超过 `limit=15`**：BOSS 直聘使用无限滚动加载，`limit > 15` 会触发伪翻页请求，必被反爬拦截
-> 2. **严格串行执行**：禁止并发多个 `opencli boss` 命令
-> 3. **每次搜索间隔 ≥ 5 秒**：模拟人类操作节奏
-> 4. **单次会话不超过 7 个搜索**：超过容易触发 Session 级冷却
-> 5. **遇到 Network Error 立即停止**：不要盲目重试，提示用户去 Chrome 中手动通过 BOSS 的安全验证
+> ⚠️ **大厂级反爬铁律（违反即刻封号）：**
+> 1. **乱序微批次**：单次运行最大遍历数量 ≤ 2 个词！拒绝机械拉网。
+> 2. **深呼吸长休眠**：禁止 5 秒的小儿科休眠。间隔必须随机落在 `25~55` 秒区间。
+> 3. **前端肉体遥测**：强行提醒用户将 `opencli` 身后的那个真实 Chrome Tab **保持在屏幕前台可见**（系统判断非休眠态），且时不时晃动鼠标生成 telemetry 遥测数据。
+> 4. **永远不要超过 `limit=15`**：杜绝跨页动作。
+> 5. **遇到 Network Error 或 200404 立即停止**：直接报错上抛并要求用户重登 Boss 直聘并走手工图灵机测试（图片验证码滑块）。
 
 ### Step 2: AI 过滤与提炼
 
