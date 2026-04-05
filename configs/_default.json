@@ -1,0 +1,70 @@
+{
+  "name": "BOSS岗位监控",
+  "description": "监控上海地区高薪AI岗位，细分关键词覆盖AI产品、AI Agent、AI Native及AI转型多个赛道，严格排除实习生",
+  "topic": "上海AI高薪岗位追踪",
+  "channels": {
+    "boss_ai_pm": {
+      "enabled": true,
+      "command": "opencli boss search",
+      "query": "AI产品经理",
+      "limit": 15,
+      "threshold": { "field": "salary", "condition": "必须包含K，排除包含'元/天'或'实习'的岗位" },
+      "extra_args": "--city 上海 --salary 50K以上",
+      "output_columns": ["name", "salary", "company", "area", "experience", "degree", "skills", "url"]
+    },
+    "boss_ai_director": {
+      "enabled": true,
+      "command": "opencli boss search",
+      "query": "AI产品总监",
+      "limit": 15,
+      "threshold": { "field": "salary", "condition": "必须包含K，排除包含'元/天'或'实习'的岗位" },
+      "extra_args": "--city 上海 --salary 50K以上",
+      "output_columns": ["name", "salary", "company", "area", "experience", "degree", "skills", "url"]
+    },
+    "boss_ai_agent": {
+      "enabled": true,
+      "command": "opencli boss search",
+      "query": "AI Agent",
+      "limit": 15,
+      "threshold": { "field": "salary", "condition": "必须包含K，排除包含'元/天'或'实习'的岗位" },
+      "extra_args": "--city 上海 --salary 50K以上",
+      "output_columns": ["name", "salary", "company", "area", "experience", "degree", "skills", "url"]
+    },
+    "boss_llm_app": {
+      "enabled": true,
+      "command": "opencli boss search",
+      "query": "大模型应用",
+      "limit": 15,
+      "threshold": { "field": "salary", "condition": "必须包含K，排除包含'元/天'或'实习'的岗位" },
+      "extra_args": "--city 上海 --salary 50K以上",
+      "output_columns": ["name", "salary", "company", "area", "experience", "degree", "skills", "url"]
+    },
+    "boss_llm_product": {
+      "enabled": true,
+      "command": "opencli boss search",
+      "query": "LLM产品",
+      "limit": 15,
+      "threshold": { "field": "salary", "condition": "必须包含K，排除包含'元/天'或'实习'的岗位" },
+      "extra_args": "--city 上海 --salary 50K以上",
+      "output_columns": ["name", "salary", "company", "area", "experience", "degree", "skills", "url"]
+    },
+    "boss_ai_native": {
+      "enabled": true,
+      "command": "opencli boss search",
+      "query": "AI Native",
+      "limit": 15,
+      "threshold": { "field": "salary", "condition": "必须包含K，排除包含'元/天'或'实习'的岗位" },
+      "extra_args": "--city 上海 --salary 50K以上",
+      "output_columns": ["name", "salary", "company", "area", "experience", "degree", "skills", "url"]
+    },
+    "boss_ai_transformation": {
+      "enabled": true,
+      "command": "opencli boss search",
+      "query": "AI转型",
+      "limit": 15,
+      "threshold": { "field": "salary", "condition": "必须包含K，排除包含'元/天'或'实习'的岗位" },
+      "extra_args": "--city 上海 --salary 50K以上",
+      "output_columns": ["name", "salary", "company", "area", "experience", "degree", "skills", "url"]
+    }
+  }
+}
