@@ -27,6 +27,7 @@ time.sleep(1)
 with open("topic_results.json", "r") as f:
     data = json.load(f)
 
+scan_date = data.get("scan_date", "Unknown Date")
 sorted_results = sorted(data.get("results", []), key=lambda x: (x.get("search_keyword", ""), x.get("salary", "")))
 
 print(f"Preparing to insert {len(sorted_results)} records...")
@@ -38,6 +39,8 @@ for idx, item in enumerate(sorted_results):
         "薪资": str(item.get("salary", "Unknown")),
         "公司": str(item.get("company", "Unknown")),
         "关键词": str(item.get("_query", "Unknown")),
+        "抓取日期": str(scan_date),
+        "抓取状态": "新数据",
         "标签/要求": str(item.get("summary", "Unknown")),
         "详情链接": full_url
     }
