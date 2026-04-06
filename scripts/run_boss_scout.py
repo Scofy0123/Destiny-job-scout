@@ -18,6 +18,13 @@ def run_scout():
         config = json.load(f)
         
     channels = config.get("channels", {})
+    global_settings = config.get("global_settings", {})
+    city_val = global_settings.get("city", "北京")
+    exp_val = global_settings.get("experience", "")
+    deg_val = global_settings.get("degree", "")
+    sal_val = global_settings.get("opencli_salary", "")
+    min_salary_k = global_settings.get("min_salary_k", 50)
+    
     scan_date = datetime.now().strftime("%Y-%m-%d %H:%M")
     
     # 抽取所有开启状态的词汇
@@ -32,7 +39,7 @@ def run_scout():
     print("🔥 BOSS 直聘深度仿生潜行模式已激活 (Anti-Crawler V2.0)")
     print(f"-> 发现 {len(channel_keys)} 个监控项，本次随机抽取 {len(selected_keys)} 个目标：{selected_keys}")
     print("=" * 60)
-    print("\n")
+    print("\\n")
     
     all_results = []
     
@@ -42,7 +49,15 @@ def run_scout():
         limit = channel.get("limit", 15)
         
         print(f"[{i+1}/{len(selected_keys)}] 猎象动作: '{query}' (limit: {limit})")
-        cmd = f"opencli boss search '{query}' --limit {limit} --city 上海 --salary 50K以上 --format json"
+        
+        cmd_parts = [f"opencli boss search '{query}' --limit {limit}"]
+        if city_val: cmd_parts.append(f"--city '{city_val}'")
+        if exp_val: cmd_parts.append(f"--experience '{exp_val}'")
+        if deg_val: cmd_parts.append(f"--degree '{deg_val}'")
+        if sal_val: cmd_parts.append(f"--salary '{sal_val}'")
+        cmd_parts.append("--format json")
+        
+        cmd = " ".join(cmd_parts)
         
         process = subprocess.run(cmd, shell=True, capture_output=True, text=True)
         
@@ -74,11 +89,11 @@ def run_scout():
         # [ANTI-CRAWLER: 狂暴大波浪抖动睡眠]
         if i < len(selected_keys) - 1:
             delay = random.randint(JITTER_MIN, JITTER_MAX)
-            print(f" -> [仿生休眠启动] 为避免检测，程序强制休眠深呼吸 {delay} 秒，请勿关闭窗口...\n")
+            print(f" -> [仿生休眠启动] 为避免检测，程序强制休眠深呼吸 {delay} 秒，请勿关闭窗口...\\n")
             time.sleep(delay)
 
-    print(f"\n✅ 巡查下潜结束。本次累计回传毛数据: {len(all_results)}.")
-    print("清洗机介入过滤... (剔除所有包含实习、日结、上限<50K的信息).")
+    print(f"\\n✅ 巡查下潜结束。本次累计回传毛数据: {len(all_results)}.")
+    print(f"清洗机介入过滤... (剔除所有包含实习、日结、上限<{min_salary_k}K的信息).")
     
     valid_jobs = []
     seen_urls = set()
@@ -94,12 +109,12 @@ def run_scout():
         if "实习" in name or "元/天" in salary or "K" not in salary.upper():
             continue
             
-        match = re.search(r'(\d+)-(\d+)K', salary, re.IGNORECASE)
+        match = re.search(r'(\\d+)-(\\d+)K', salary, re.IGNORECASE)
         if match:
             min_k = int(match.group(1))
             max_k = int(match.group(2))
             
-            if max_k >= 50:
+            if max_k >= min_salary_k:
                 job["_max_k"] = max_k
                 job["_min_k"] = min_k
                 skills = job.get("skills", "")

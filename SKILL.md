@@ -16,6 +16,22 @@ metadata:
 > - Chrome 浏览器已安装 opencli 插件
 > - Chrome 中已登录 [BOSS直聘](https://www.zhipin.com/)
 
+---
+
+## ⚡ Step 0: 必做！配置系统初始化向导
+
+对于任何首次使用此 Skill 的用户，**必须强制引导用户运行初始化向导脚本**。它能将这个 Skill 的能力按两阶解耦并配置：
+
+```bash
+python3 ~/.gemini/antigravity/skills/boss-job-scout/scripts/boss_scout_init.py
+```
+
+执行上述向导后，用户将配置：
+1. **基础核心能力 (Basic Mode)**：配置目标城市、底线薪资门槛、经验学历等底层探针。
+2. **高阶超级能力 (Pro Mode)**：上传脱敏简历并填写职场 DNA，开启大模型合伙人级避坑与灵魂匹配功能。
+
+本 Skill 以这套向导引擎生成的 `configs/_default.json` 为全局中枢。
+
 ## 核心能力
 
 通过 `opencli boss search` 抓取 BOSS 直聘的岗位数据，支持：
@@ -149,14 +165,18 @@ python3 ~/.gemini/antigravity/skills/boss-job-scout/scripts/run_boss_scout.py
 
 Agent 根据 `Step 0` 的环境检查结果，采取不同的输出策略：
 
-#### 分支 A：用户已授权使用 lark-cli（默认方案）
+#### 分支 A：用户已授权使用 lark-cli（高级能力：AI合伙人私推）
 1. **表格自动入库**：你可以安全地调用配套脚本自动把脱水 JSON 的增量数据插入基座表：
    ```bash
    python3 ~/.gemini/antigravity/skills/boss-job-scout/scripts/upload_to_base.py
    ```
-2. **Top 5 消息直推**：调用预置脚本引擎，将最高薪数据直捣黄龙推送到私聊：
+2. **Deep Scrape 深潜提取 (V3新增)**：对初筛出的大于阈值的 Top 数据进行深度提取：
    ```bash
-   python3 ~/.gemini/antigravity/skills/boss-job-scout/scripts/push_top5.py
+   python3 ~/.gemini/antigravity/skills/boss-job-scout/scripts/extract_jd.py
+   ```
+3. **AI 合伙人法官推片 (V3新增)**：结合用户的职场 DNA，生成极其刻薄、独到的毒辣简报，并发往飞书：
+   ```bash
+   python3 ~/.gemini/antigravity/skills/boss-job-scout/scripts/push_top5_v3.py
    ```
 
 #### 分支 B：离线降级方案（用户未安装且拒绝授权）

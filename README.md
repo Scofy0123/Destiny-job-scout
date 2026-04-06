@@ -1,8 +1,9 @@
-# 🎯 boss-job-scout
+# 🎯 AI 个性化猎头系统 via BOSS直聘 (Boss-Job-Scout V3.1)
 
-**BOSS直聘岗位监控雷达** — 一个基于 [Antigravity IDE](https://github.com/google-deepmind/antigravity) 的 AI Skill，通过 [opencli](https://github.com/jackwener/opencli) 自动抓取 BOSS直聘高薪岗位数据，实现招聘市场的智能巡查。
+**高阶猎雷达引擎** — 一个基于 [Antigravity IDE](https://github.com/google-deepmind/antigravity) 的 AI Skill。通过全套配置化和反风控爬虫架构，穿透获取极近千字核心 JD，并利用原生大模型结合「私人职场 DNA」进行灵魂推荐。
 
-> 💡 适用场景：AI 岗位趋势追踪、薪资调研、竞品人才布局分析、求职市场情报收集
+> 💡 架构设计详见：[PRD 草案与架构](./PRD.md)
+> 💡 适用场景：AI 岗位趋势追踪、薪资调研、竞品人才布局分析、基于个人 DNA 的毒辣岗位筛选。
 
 ---
 
@@ -30,30 +31,32 @@
 - 已安装并配置 [lark-cli](https://github.com/larksuite/cli)（用于飞书表格落库与 IM 推送）
 - [Antigravity IDE](https://github.com/google-deepmind/antigravity)
 
-## 🚀 安装
+## 🚀 史诗级向导与安装路线 (V3.1)
 
-### 方式一：克隆到 Antigravity Skills 目录
+在克隆下本项目后，**第一步也是唯一的一步，必须激活全局作战配置终端**：
 
 ```bash
-git clone https://github.com/Scofy0123/boss-job-scout.git ~/.gemini/antigravity/skills/boss-job-scout
+python3 ~/.gemini/antigravity/skills/boss-job-scout/scripts/boss_scout_init.py
 ```
+*(如果终端缺少渲染库，它会以最高优先级自愈安装 `rich` 与 `questionary`)*
 
-### 方式二：手动复制
+通过这个具有赛博极客风格的 ANSI 互动界面的问诊：
+1. **Basic 模式接入**：你可定制探测器需要的下限、城市、经验与薪资波段；
+2. **Pro 模式赋能**：系统会将你的简历和性格倾向融合，打造成 `_my_profile.md` 的毒辣底座。
 
-将 `SKILL.md` 和 `configs/` 文件夹复制到 `~/.gemini/antigravity/skills/boss-job-scout/` 目录下。
+## 📖 常规战斗序列 (执行指令)
 
-## 📖 使用方法
+在完成 `Step 0` 的环境固化后，接下来的运作可完全解耦为独立管线：
 
-在 Antigravity IDE 中对 AI 说：
+```bash
+# 阶段1：泛扫盲（每日自动触发池）
+python3 scripts/run_boss_scout.py
 
-```
-运行 boss-job-scout
-```
+# 阶段2：高频穿戴装甲（深潜抓取全量 JD，自带防封咖啡局）
+python3 scripts/extract_jd.py
 
-或者更具体地：
-
-```
-运行 boss-job-scout，用默认配置帮我搜一下上海的AI高薪岗位
+# 阶段3：降维打击推送（用 LLM 的毒辣逻辑解析后，推送至飞书移动端）
+python3 scripts/push_top5_v3.py
 ```
 
 ### 示例对话
