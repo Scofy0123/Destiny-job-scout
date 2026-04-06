@@ -110,24 +110,16 @@ BOSS直聘的反爬机制极其严苛。本 Skill 经历了生产级的重构，
 | **单页不翻页** | 强制执行 `limit=15`（第一页数据），从底层隔绝翻页造成的异常流量峰值 |
 | **风控即刻熔断** | 一旦抛出 `Network Error` 或 `200404` 登录态失效，立即截断所有队列，并推送已抓取残量数据 |
 
-> 🔑 **遇到封堵或报错的急救流程（影子替身/Session Mismatch）：**
-> 当遇到 `Network Error` 或 `xhr.onerror` 时，往往不是账号被封，而是 `opencli` 绑定的 Chrome Profile 与你手动登录的浏览器上下文不一致（即“影子替身”问题），或底层 XHR 通道因长时间待机被断开重连。急救步骤：
+> [!IMPORTANT]
+> **遇到封堵或报错的急救流程（影子替身/Session Mismatch）**
+> 
+> 当遇到 `Network Error` 或 `xhr.onerror` 时，往往**不是账号被封**，而是 `opencli` 绑定的 Chrome Profile 与你手动登录的浏览器上下文不一致（即“影子替身”问题），或底层 XHR 通道因长时间待机被断开重连。
+> 
+> **正确的急救步骤：**
 > 1. 请**只保留一个**安装了 `opencli` 插件的 Chrome 浏览器窗口。
-> 2. 在这个拥有插件的浏览器里，新开一个 Tab，明确输入并打开 `https://www.zhipin.com/web/geek/job`（确保底层环境真正激活并扫码登录）。
-> 3. 随意点击确认页面活蹦乱跳，切记保留此 Tab **不要关闭**。
+> 2. 在这个拥有插件的浏览器里，新开一个 Tab，明确输入并打开 `https://www.zhipin.com/web/geek/job`（确保底层环境真正激活并已扫码登录）。
+> 3. 随意点击确认页面活蹦乱跳，**切记保留此 Tab 不要关闭**。
 > 4. 让 Chrome 留在前台深呼吸，在终端重新执行 `opencli boss search ...` 测试抓取即可满血复活！
-
-## 💎 多维表格落地最佳实践 (Bitable Integration)
-
-为了保证云端多维表格（Bitable）数据的高可用与易读性，每次新增爬取的数据默认采用追加模式（append）堆积在表格底部。
-
-**💡 自动前置最新数据的终极解法**：
-请不要尝试使用复杂的 API 插行逻辑！直接通过 `lark-cli` 调用底层修改该表格的**视图排序规则（Sort View）**，让历史与新进数据同时受控：
-```bash
-# 执行一次即可一劳永逸：将指定表格视图按照“抓取日期”字段开启降序排列
-lark-cli base +view-set-sort --base-token <YOUR_BASE_TOKEN> --table-id <YOUR_TABLE_ID> --view-id <YOUR_VIEW_ID> --json '[{"field": "<抓取日期对应_field_id>", "desc": true}]'
-```
-执行后，最新洗出的高薪岗位将永远置顶在飞书表格的第一排。
 ## 🔗 相关项目
 
 - [opencli](https://github.com/jackwener/opencli) — 浏览器自动化 CLI 工具
