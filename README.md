@@ -16,6 +16,14 @@
 
 ---
 
+## 📸 灵魂推送实机演示 (Demo)
+<div align="center">
+  <img src="assets/demo_screenshot.png" alt="DestinyScout Agent Push Demo" width="900" style="border-radius: 8px;">
+  <p><i>（实机推送截图：利用个人 DNA + LLM，精准判别岗位雷区与核心杠杆）</i></p>
+</div>
+
+---
+
 ## 💎 史诗级核心亮点
 
 - ⚡️ **全息化终端向导 (Init Wizard)**: 告别繁琐的手写 JSON 配置。跑一下启动脚本，在带有绚丽 ANSI 色的 `Rich` 终端里交互式构建你的专属雷达基站。
