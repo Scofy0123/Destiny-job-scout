@@ -3,9 +3,9 @@
   "description": "监控 上海 地区高薪AI岗位",
   "topic": "上海AI高薪岗位追踪",
   "global_settings": {
-    "city": "上海",
-    "experience": "10年以上",
-    "degree": "本科",
+    "city": "北京",
+    "experience": "不限",
+    "degree": "不限",
     "opencli_salary": "50K以上",
     "min_salary_k": 50,
     "max_deep_scrape_limit": -1,
