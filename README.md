@@ -34,7 +34,7 @@ flowchart TD
     Config -.-> Phase3
 
     subgraph Phase1 ["📡 阶段一：高频初筛雷达 (Basic)"]
-        A["run_boss_scout.py"] --> B("Boss 搜索页")
+        A["run_destinyscout.py"] --> B("Boss 搜索页")
         B --> C{"硬性正则洗净\n拦截实习/外包?"}
         C -->|"存活"| E["topic_results.json\n浅层缓存"]
     end
@@ -68,7 +68,7 @@ flowchart TD
 在克隆本项目后，**你必须首先激活全局作战配置终端**：
 
 ```bash
-python3 ~/.gemini/antigravity/skills/boss-job-scout/scripts/boss_scout_init.py
+python3 ~/.gemini/antigravity/skills/destinyscout/scripts/destinyscout_init.py
 ```
 *(如果你的 Python 环境缺少渲染库，系统会静默自愈安装 `rich` 与 `questionary`)*
 在绚丽的控制台里：
@@ -80,7 +80,7 @@ python3 ~/.gemini/antigravity/skills/boss-job-scout/scripts/boss_scout_init.py
 
 ```bash
 # 阶段1：泛扫盲（拉网式初探浅层看板）
-python3 scripts/run_boss_scout.py
+python3 scripts/run_destinyscout.py
 
 # 阶段2：高频穿戴装甲（启动深海防封萃取，潜行提取全量 JD）
 python3 scripts/extract_jd.py

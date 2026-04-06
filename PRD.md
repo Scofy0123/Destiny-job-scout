@@ -92,7 +92,7 @@
 ## 七、部署、运营与后续全景路线图 (Roadmap)
 ### 7.1 自治化配置部署
 **Boss Job Scout Init Wizard**：
-放弃直接手写 JSON。用户运行 `python3 boss_scout_init.py` 后，终端将唤起基于 `Rich` & `Questionary` 的彩屏向导。结合系统的 crontab 实现每日清晨的高能自动化巡检。
+放弃直接手写 JSON。用户运行 `python3 destinyscout_init.py` 后，终端将唤起基于 `Rich` & `Questionary` 的彩屏向导。结合系统的 crontab 实现每日清晨的高能自动化巡检。
 
 ### 7.2 后续版本计划 (V4.x Evolution)
 - [ ] **高维对话记忆体 (Memory Retention)**：加入长期记忆机制。不仅能通过离线文档获取职场 DNA，还能在每一次向用户推送后，根据用户的聊天反馈（如：“这个行业我绝对不去”、“帮我把期望定高点”），**自动并永久修正求职者的隐藏意图（Latent Intent）**，越用越毒辣！

@@ -1,5 +1,5 @@
 ---
-name: boss-job-scout
+name: destinyscout
 version: 1.0.0
 description: "BOSS直聘岗位监控雷达。通过 opencli 抓取 BOSS 直聘高薪岗位数据，支持多关键词并行搜索、薪资过滤、结构化 JSON 输出。当用户需要监控招聘市场、追踪特定岗位趋势、做薪资调研时使用。"
 metadata:
@@ -8,7 +8,7 @@ metadata:
   cliHelp: "This is an agentic workflow skill, no custom CLI."
 ---
 
-# boss-job-scout 工作流
+# destinyscout 工作流
 
 > **前置条件：**
 > - 全局安装 `opencli`（`npm install -g @jackwener/opencli`）
@@ -23,7 +23,7 @@ metadata:
 对于任何首次使用此 Skill 的用户，**必须强制引导用户运行初始化向导脚本**。它能将这个 Skill 的能力按两阶解耦并配置：
 
 ```bash
-python3 ~/.gemini/antigravity/skills/boss-job-scout/scripts/boss_scout_init.py
+python3 ~/.gemini/antigravity/skills/destinyscout/scripts/destinyscout_init.py
 ```
 
 执行上述向导后，用户将配置：
@@ -52,14 +52,14 @@ opencli boss search <query>        # 搜索职位（本执行核心命令）
 
 > **渐进式披露：**
 > 如果用户需要对找到的候选人继续执行“打招呼”、“主动沟通”、“发面试邀请”等动作，请**先阅读以下参考指引**获取完整的高阶命令，切勿在常规监控任务中自作主张。
-> 📖 [高阶动作操作指引](file://~/.gemini/antigravity/skills/boss-job-scout/references/opencli-boss-advanced-commands.md)
+> 📖 [高阶动作操作指引](file://~/.gemini/antigravity/skills/destinyscout/references/opencli-boss-advanced-commands.md)
 
 ## 配置系统
 
 配置文件存储在本 Skill 目录下的 `configs/` 文件夹中。
 
 ```
-boss-job-scout/
+destinyscout/
 ├── SKILL.md
 └── configs/
     └── _default.json    # 默认配置（可改不可删）
@@ -105,7 +105,7 @@ boss-job-scout/
 3. ➕ 新建配置
 ```
 
-读取配置文件路径：`~/.gemini/antigravity/skills/boss-job-scout/configs/`
+读取配置文件路径：`~/.gemini/antigravity/skills/destinyscout/configs/`
 
 ### Step 1: 仿生学乱序抽查 (Anti-Crawler V2)
 
@@ -113,7 +113,7 @@ boss-job-scout/
 
 你可以直接调用预置爬虫管控核心：
 ```bash
-python3 ~/.gemini/antigravity/skills/boss-job-scout/scripts/run_boss_scout.py
+python3 ~/.gemini/antigravity/skills/destinyscout/scripts/run_destinyscout.py
 ```
 
 > ⚠️ **大厂级反爬铁律（违反即刻封号）：**
@@ -168,15 +168,15 @@ Agent 根据 `Step 0` 的环境检查结果，采取不同的输出策略：
 #### 分支 A：用户已授权使用 lark-cli（高级能力：AI合伙人私推）
 1. **表格自动入库**：你可以安全地调用配套脚本自动把脱水 JSON 的增量数据插入基座表：
    ```bash
-   python3 ~/.gemini/antigravity/skills/boss-job-scout/scripts/upload_to_base.py
+   python3 ~/.gemini/antigravity/skills/destinyscout/scripts/upload_to_base.py
    ```
 2. **Deep Scrape 深潜提取 (V3新增)**：对初筛出的大于阈值的 Top 数据进行深度提取：
    ```bash
-   python3 ~/.gemini/antigravity/skills/boss-job-scout/scripts/extract_jd.py
+   python3 ~/.gemini/antigravity/skills/destinyscout/scripts/extract_jd.py
    ```
 3. **AI 合伙人法官推片 (V3新增)**：结合用户的职场 DNA，生成极其刻薄、独到的毒辣简报，并发往飞书：
    ```bash
-   python3 ~/.gemini/antigravity/skills/boss-job-scout/scripts/push_top5_v3.py
+   python3 ~/.gemini/antigravity/skills/destinyscout/scripts/push_top5_v3.py
    ```
 
 #### 分支 B：离线降级方案（用户未安装且拒绝授权）
@@ -184,7 +184,7 @@ Agent 根据 `Step 0` 的环境检查结果，采取不同的输出策略：
 1. **终端降级输出**：不要停止运行，直接以极具视觉冲击力的 Markdown 列表在当前聊天窗口打印 Top 5 高薪简报。
 2. **2026 美学大屏生成**：在执行脚本前，**务必先检查脚本文件是否存在并确认 Python 3 环境可用**。确认无误后，调用本技能目录下的生成脚本：
    ```bash
-   python3 ~/.gemini/antigravity/skills/boss-job-scout/scripts/generate_html.py
+   python3 ~/.gemini/antigravity/skills/destinyscout/scripts/generate_html.py
    ```
    该脚本会提取过滤后的高薪数据，在当前工作区生成一个包含深色模式、毛玻璃特效（Glassmorphism）、动态卡片悬浮、双主题无缝切换的最新 HTML 本地看板 `boss_topic_board.html`。
 3. 把全量数据存一份脱水版到本地 `topic_results_filtered.json` 供备查。

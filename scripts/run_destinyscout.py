@@ -6,7 +6,7 @@ import random
 import subprocess
 from datetime import datetime
 
-CONFIG_FILE = os.path.expanduser("~/.gemini/antigravity/skills/boss-job-scout/configs/_default.json")
+CONFIG_FILE = os.path.expanduser("~/.gemini/antigravity/skills/destinyscout/configs/_default.json")
 OUTPUT_FILE = "topic_results.json"
 MAX_BATCH_SIZE = 2  # 每次最多盲搜词汇数量以避免防爬
 JITTER_MIN = 30

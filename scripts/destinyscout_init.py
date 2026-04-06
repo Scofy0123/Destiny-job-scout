@@ -123,7 +123,7 @@ def main():
         setup_pro_mode()
         
         console.print()
-        end_text = "[bold green]配置全部锁定！这台高维战争机器现在正式隶属于你。[/bold green]\\n\\n[dim]接下来的常规启动战术：[/dim]\\n1. 执行 [bold cyan]python3 scripts/run_boss_scout.py[/bold cyan] (每日初筛引擎)\\n2. 执行 [bold cyan]python3 scripts/extract_jd.py[/bold cyan] (深潜突击队)\\n3. 执行 [bold cyan]python3 scripts/push_top5_v3.py[/bold cyan] (大模型灵魂推送)"
+        end_text = "[bold green]配置全部锁定！这台高维战争机器现在正式隶属于你。[/bold green]\\n\\n[dim]接下来的常规启动战术：[/dim]\\n1. 执行 [bold cyan]python3 scripts/run_destinyscout.py[/bold cyan] (每日初筛引擎)\\n2. 执行 [bold cyan]python3 scripts/extract_jd.py[/bold cyan] (深潜突击队)\\n3. 执行 [bold cyan]python3 scripts/push_top5_v3.py[/bold cyan] (大模型灵魂推送)"
         console.print(Panel(end_text, border_style="green"))
     except KeyboardInterrupt:
         console.print("\\n\\n[bold red]向导已强制退出。您随时可以重新运行它。[/bold red]")
