@@ -1,4 +1,4 @@
-# AI 个性化猎头系统 via BOSS直聘 PRD
+# 🦅 DestinyScout: AI 个性化猎头系统 V1.0 PRD
 
 > [!NOTE]
 > 本文档基于 Google Agent 白皮书最新规范撰写。请在此草案阶段评估整体逻辑，通过后我将自动把此文档部署到你指定的飞书云文档中。

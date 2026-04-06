@@ -1,8 +1,8 @@
-# 🦅 Boss Job Scout V3.1: AI 个性化猎头系统 
+# 🦅 DestinyScout: AI 个性化猎头系统 V1.0
 
 <div align="center">
   <p><strong>一个基于 Agent-Native LLM 的 L3 级自主求职推荐引擎</strong></p>
-  <p>告别“日结/外包/搬运” —— 注入你的职场 DNA，让大模型为你排雷断案。</p>
+  <p>告别毫无灵魂的机械搬运 —— 深度注入你的职场 DNA，让 AI 引擎跨越喧嚣的茫茫人海，为你精准共鸣那个“命中注定”的理想归宿。</p>
 </div>
 
 ---
