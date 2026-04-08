@@ -94,6 +94,12 @@ destinyscout/
 - 如果没有安装，请**立刻停止执行**，提醒用户缺少关键环境依赖。
 - 同时在回复中，直接使用以下原话引导用户授权安装：“检测到未安装 `lark-cli`，请将这条指令直接发给我，让我来帮你全自动安装：\n`帮我装一下所有的东西：https://github.com/larksuite/cli/blob/main/README.zh.md`”
 
+### Step 0.5: 防降权/防投毒会话确认
+
+为了防止由于会话过期或刚解除滑块验证码进入大厂反爬“沙盒降权期”导致抓取全是垃圾烂尾数据，**在真正执行底层 `opencli` 抓取之前，Agent 必须强制停下来，向用户确认一次会话状态**：
+- 询问用户：“在正式下钻猎场之前，请确认：您今天是否有在 Chrome 浏览器中正常刷新过 BOSS 直聘？以及如果您刚才触发过滑块验证码，请确保我们已经等待了大概 15 分钟的沙盒冷却期哦。”
+- 只有当用户回答确认（比如：“刷新过了”、“没问题”、“发车吧”等）后，Agent 才被允许继续往下执行 Step 1。
+
 ### Step 1: 确定配置
 
 如果用户未指定配置，列出所有可用配置并带出简介：
@@ -174,10 +180,12 @@ Agent 根据 `Step 0` 的环境检查结果，采取不同的输出策略：
    ```bash
    python3 ~/.gemini/antigravity/skills/destinyscout/scripts/extract_jd.py
    ```
-3. **AI 合伙人法官推片 (V3新增)**：结合用户的职场 DNA，生成极其刻薄、独到的毒辣简报，并发往飞书：
-   ```bash
-   python3 ~/.gemini/antigravity/skills/destinyscout/scripts/push_top5_v3.py
-   ```
+3. **Agent 原生 LLM 判决与飞书推送 (升级版)**：
+   提取完成后，**Agent (Antigravity) 绝对不能再次调用外部大模型命令行脚本**，必须由 Agent 自主在 IDE 环境下履行法官职责：
+   - 自动拉取最新的 `topic_results_detailed.json` 获取岗位详情。
+   - 结合用户的私人职场档案 `configs/_my_profile.md`。
+   - 使用自己的超维大脑生成符合飞书严格语法的精简、毒辣的合伙人点评 Markdown 文本消息。内容必须包含包含：“💡合伙人私语”、“核心杠杆”及“潜在避坑”。
+   - 最后由 Agent 自主调用 `lark-cli im +messages-send --as bot --user-id <YourUID> --markdown <Text>` 指令或者编写临时安全发信 Python 验证发向服务端。
 
 #### 分支 B：离线降级方案（用户未安装且拒绝授权）
 如果用户回复“跳过”，则启用纯本地沉淀方案：
